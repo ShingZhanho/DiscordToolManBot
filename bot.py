@@ -1,4 +1,5 @@
 import os
+from command import BotCommand
 
 import discord
 from dotenv import load_dotenv
@@ -18,8 +19,12 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('$tm '):
-        await message.channel.send(f'[DEBUG MODE] 我聽到你叫我。指令係：{message.content}。')
-        await message.channel.send('DEBUG MODE之下無法執行任何指令。')
+    if message.content.startswith('$tm'):
+        if len(message.content) == 3:  # if no command found
+            await message.channel.send('只找到呼叫開頭而沒有具體指令。用法：$tm [具體指令]')
+            return
+
+        command = BotCommand()
+        await command.RunCommand(message.channel, message.content[4:])
 
 client.run(TOKEN)
