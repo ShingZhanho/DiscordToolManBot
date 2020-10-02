@@ -25,6 +25,6 @@ async def on_message(message):
             return
 
         command = BotCommand()
-        await command.RunCommand(message.channel, message.content[4:])
+        await command.run_command(message.channel, message.content[4:])
 
 client.run(TOKEN)
